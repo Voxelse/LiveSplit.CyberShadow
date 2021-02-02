@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE Splits [
+  <!ENTITY C "Chapter_">
+  <!ENTITY L "Level_">
+  <!ENTITY B "Boss_">
+  <!ENTITY W "Weapon_">
+  <!ENTITY A "Activatable_">
+]>
+<Splits>
+  <Parent name="Chapters" text="Chapters">
+    <Split name="&C;chapter_LVL_geofront_1" text="Chapter 1 - Geothermal Towers"/>
+    <Split name="&C;chapter_LVL_disposal_1" text="Chapter 2 - Disposal Facility"/>
+    <Split name="&C;chapter_LVL_hunt_1" text="Chapter 3 - Mekacity Ruins"/>
+    <Split name="&C;chapter_LVL_ai_entrance" text="Chapter 4 - Reactor"/>
+    <Split name="&C;chapter_LVL_darklab_1" text="Chapter 5 - Research Lab"/>
+    <Split name="&C;chapter_LVL_factory_1" text="Chapter 6 - Robot Factory"/>
+    <Split name="&C;chapter_LVL_under_1" text="Chapter 7 - Outskirts"/>
+    <Split name="&C;chapter_LVL_highway_0.2" text="Chapter 8 - Return to Mekacity"/>
+    <Split name="&C;chapter_LVL_boat_2.1" text="Chapter 9 - Mekacity Docks"/>
+    <Split name="&C;chapter_LVL_shore_2" text="Chapter 10 - Meka Island Spaceport"/>
+    <Split name="&L;cut_ending_release" text="End"/>  
+  </Parent>
+
+  <Parent name="Bosses" text="Bosses">
+    <Split name="&B;Smasher" text="Smasher (Mini boss)"/>
+    <Split name="&B;Apparitor" text="Apparitor"/>
+    <Split name="&B;LaserBrain" text="LaserBrain"/>
+    <Split name="&B;Scrambler" text="Scrambler"/>
+    <Split name="&B;HunterTank" text="Hunter Tank (Mini boss)"/>
+    <Split name="&B;BioHunter" text="BioHunter"/>
+    <Split name="&B;MekaDragon" text="MekaDragon"/>
+    <Split name="&B;GhostNinjas" text="Ghost Ninjas (Mini boss)"/>
+    <Split name="&B;VesselDefenseSystem" text="Vessel Defense System"/>
+    <Split name="&B;SubjectAlpha_1" text="Subject Alpha (Phase 1 - Cutscene)"/>
+    <Split name="&B;SubjectAlpha_2" text="Subject Alpha (Phase 2)"/>
+    <Split name="&B;SubjectAlpha_3" text="Subject Alpha (Phase 3)"/>
+    <Split name="&B;TunnelCleaner" text="Tunnel Cleaner"/>
+    <Split name="&A;carrier_dropped" text="Carrier (Mini boss)"/>
+    <Split name="&A;combinatron_destroyed" text="Combinatron"/>
+    <Split name="&A;spiderail_destroyed" text="Spiderail"/>
+    <Split name="&B;Progenitor" text="Progenitor"/>
+  </Parent>
+
+  <Parent name="Weapons" text="Weapons">
+    <Split name="&W;Shuriken" text="Shuriken"/>
+    <Split name="&W;RisingFire" text="Rising Fire"/>
+    <Split name="&W;AirStrike" text="Air Strike"/>
+    <Split name="&W;WallSlide" text="Wall Slide"/>
+    <Split name="&W;L2Katana_2" text="L2 Katana"/>
+    <Split name="&W;Parry" text="Parry"/>
+    <Split name="&W;Sprint" text="Sprint"/>
+    <Split name="&W;Charge" text="Charge"/>
+  </Parent>
+</Splits>

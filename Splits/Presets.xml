@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE Presets [
+  <!ENTITY C "Chapter_">
+  <!ENTITY L "Level_">
+  <!ENTITY B "Boss_">
+  <!ENTITY W "Weapon_">
+  <!ENTITY A "Activatable_">
+]>
+<Presets>
+  <Preset name="Any%">
+    <Split name="&C;chapter_LVL_disposal_1"/>
+    <Split name="&C;chapter_LVL_hunt_1"/>
+    <Split name="&C;chapter_LVL_ai_entrance"/>
+    <Split name="&C;chapter_LVL_darklab_1"/>
+    <Split name="&C;chapter_LVL_factory_1"/>
+    <Split name="&C;chapter_LVL_under_1"/>
+    <Split name="&C;chapter_LVL_highway_0.2"/>
+    <Split name="&C;chapter_LVL_boat_2.1"/>
+    <Split name="&C;chapter_LVL_shore_2"/>
+    <Split name="&L;cut_ending_release"/>
+  </Preset>
+</Presets>
