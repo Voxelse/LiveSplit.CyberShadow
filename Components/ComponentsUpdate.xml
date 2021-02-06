@@ -1,5 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="1.0.2">
+    <files>
+      <file path="Components/LiveSplit.CyberShadow.dll" status="changed"/>
+      <file path="Components/LiveSplit.RuntimeText.dll" status="added"/>
+    </files>
+    <changelog>
+      <change>Greatly improves platforms/versions support</change>
+      <change>Add room timer</change>
+    </changelog>
+  </update>
   <update version="1.0.1">
     <files>
       <file path="Components/LiveSplit.CyberShadow.dll" status="changed"/>
@@ -10,7 +20,7 @@
   </update>
   <update version="1.0.0">
     <files>
-      <file path="Components/LiveSplit.CyberShadow.dll" status="changed"/>
+      <file path="Components/LiveSplit.CyberShadow.dll" status="added"/>
     </files>
     <changelog>
       <change>Initial Release</change>

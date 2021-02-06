@@ -1,11 +1,52 @@
-﻿using System;
+﻿using LiveSplit.RuntimeText;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
 
 namespace LiveSplit.CyberShadow {
     using Offsets = HashSet<int>;
     using OffsetsValues = Dictionary<int, HashSet<double>>;
 
     public partial class CyberShadowComponent {
+
+        private const string RoomTimerName = "Room Timer";
+        private const int RoomTimerPrecisionCurrent = 2;
+        private const int RoomTimerPrecisionPrevious = 3;
+        private const string RoomTimerSeparator = " / ";
+        private static readonly string DefaultLastRoomTime = "0." + new string('0', RoomTimerPrecisionPrevious) + RoomTimerSeparator;
+
+        private string lastRoomTime = DefaultLastRoomTime;
+        private readonly Stopwatch roomWatch = new Stopwatch();
+        private RuntimeTextComponent roomComponent = null;
+        private bool roomTimer = false;
+        public bool RoomTimer {
+            get => roomTimer;
+            set {
+                if(roomTimer = value) {
+                    if(roomComponent == null) {
+                        roomComponent = (RuntimeTextComponent)timer.CurrentState.Layout.Components.FirstOrDefault(c => c.ComponentName == "Runtime Text" || c.ComponentName == RoomTimerName);
+                        if(roomComponent == null) {
+                            roomComponent = new RuntimeTextComponent(timer.CurrentState, RoomTimerName, RoomTimerName) {
+                                Value = lastRoomTime + "0." + new string('0', RoomTimerPrecisionCurrent)
+                            };
+                            timer.CurrentState.Layout.LayoutComponents.Add(new UI.Components.LayoutComponent("LiveSplit.RuntimeText.dll", roomComponent));
+                        }
+                    }
+                } else {
+                    if(roomComponent != null) {
+                        foreach(UI.Components.ILayoutComponent component in timer.CurrentState.Layout.LayoutComponents) {
+                            if(component.Component.ComponentName == "Runtime Text" || component.Component.ComponentName == RoomTimerName) {
+                                timer.CurrentState.Layout.LayoutComponents.Remove(component);
+                                break;
+                            }
+                        }
+                        roomComponent = null;
+                    }
+                }
+            }
+        }
 
         private readonly Offsets bossOffsets = new Offsets();
         private readonly OffsetsValues bossOffsetsPhases = new OffsetsValues();
@@ -15,8 +56,25 @@ namespace LiveSplit.CyberShadow {
 
         private readonly RemainingDictionary remainingSplits;
 
+
         public override bool Update() {
-            return memory.Update();
+            if(!memory.Update()) {
+                return false;
+            }
+
+            if(roomTimer) {
+                if(memory.Level.Changed) {
+                    if(memory.Level.New.Equals("UI_title", StringComparison.Ordinal)) {
+                        lastRoomTime = DefaultLastRoomTime;
+                        roomWatch.Reset();
+                    } else {
+                        lastRoomTime = FormatRoomTimer(RoomTimerPrecisionPrevious) + RoomTimerSeparator;
+                        roomWatch.Restart();
+                    }
+                }
+                roomComponent.Value = lastRoomTime + FormatRoomTimer(RoomTimerPrecisionCurrent);
+            }
+            return true;
         }
 
         public override bool Start() {
@@ -25,7 +83,7 @@ namespace LiveSplit.CyberShadow {
 
         public override void OnStart() {
             memory.OnStart();
-            
+
             bossOffsets.Clear();
             bossOffsetsPhases.Clear();
             weaponOffsets.Clear();
@@ -117,12 +175,39 @@ namespace LiveSplit.CyberShadow {
                 return false;
             }
         }
+
         public override bool Reset() {
             return memory.Mode.Changed && memory.Mode.New.Equals("title");
         }
 
         public override TimeSpan? GameTime() {
             return TimeSpan.FromSeconds(memory.Playtime?.New ?? 0);
+        }
+
+        private string FormatRoomTimer(int msPrecision) {
+            TimeSpan elapsed = roomWatch.Elapsed;
+
+            StringBuilder sb = new StringBuilder();
+
+            if(elapsed.TotalMinutes >= 1d) {
+                sb.Append((int)elapsed.TotalMinutes);
+                sb.Append(":");
+            }
+
+            sb.Append(elapsed.Seconds.ToString(elapsed.TotalSeconds >= 10d ? "D2" : "D"));
+
+            if(msPrecision > 0 && msPrecision < 4) {
+                sb.Append(".");
+                if(msPrecision == 3) {
+                    sb.Append(elapsed.Milliseconds.ToString("D3"));
+                } else if(msPrecision == 2) {
+                    sb.Append((elapsed.Milliseconds / 10).ToString("D2"));
+                } else {
+                    sb.Append(elapsed.Milliseconds / 100);
+                }
+            }
+
+            return sb.ToString();
         }
     }
 }
