@@ -34,7 +34,10 @@ namespace LiveSplit.CyberShadow {
         private void InitPointers() {
             //If the game is updated or have different versions,
             //switch to aobscan ((aob address)static->0x0->(aob offset)0x747D0(for playtime))
-            StaticDataOffset = game.Process.MainModule.BaseAddress + 0x32C2678;
+            //StaticDataOffset = game.Process.MainModule.BaseAddress + 0x32C2678;
+
+            //switch to aobscan ((aob address)static->0x0->(aob offset)0x74830(for playtime))
+            StaticDataOffset = game.Process.MainModule.BaseAddress + 0x32CBBE8;
 
             Mode = new UnionStringPointer(game, StaticDataOffset + 0x68);
             _ = Mode.New;
@@ -47,8 +50,12 @@ namespace LiveSplit.CyberShadow {
             Playtime = ptrFactory.Make<double>(StaticDataOffset + 0x470);
 
             var saveData = ptrFactory.Make<IntPtr>(StaticDataOffset + 0x9C8);
+            logger.Log(saveData.New);
             Activatables = ptrFactory.Make<IntPtr>(saveData, 0x2058);
-            Chapters = ptrFactory.Make<IntPtr>(saveData, 0xAA50);
+            //Chapters = ptrFactory.Make<IntPtr>(saveData, 0xAA50);
+            Chapters = ptrFactory.Make<IntPtr>(saveData, 0xAA78);
+
+            logger.Log(ptrFactory);
         }
 
         public void OnStart() {
@@ -86,8 +93,8 @@ namespace LiveSplit.CyberShadow {
 
         private IEnumerable<string> NewLinkedList(IntPtr pointer, int count, HashSet<string> done) {
             var newNames = new List<string>();
-            IntPtr arrayPtr = game.Read<IntPtr>(pointer + 0xB0 + 0x8 + 0xC);
             int length = game.Read<int>(pointer + 0xB0 + 0x8 + 0x8);
+            IntPtr arrayPtr = game.Read<IntPtr>(pointer + 0xB0 + 0x8 + 0xC);
             IntPtr firstPtr = game.Read<IntPtr>(arrayPtr + length * 4);
             for(int i = 0; i < count; i++) {
                 string name = game.Read<UnionString>(firstPtr + 0x8).Value(game);

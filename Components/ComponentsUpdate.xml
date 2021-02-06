@@ -1,8 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="1.0.1">
+    <files>
+      <file path="Components/LiveSplit.CyberShadow.dll" status="changed"/>
+    </files>
+    <changelog>
+      <change>Quick fix for v1.03</change>
+    </changelog>
+  </update>
   <update version="1.0.0">
     <files>
-      <file path="Components/LiveSplit.CybserShadow.dll" status="changed"/>
+      <file path="Components/LiveSplit.CyberShadow.dll" status="changed"/>
     </files>
     <changelog>
       <change>Initial Release</change>
