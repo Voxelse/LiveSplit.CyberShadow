@@ -51,7 +51,6 @@ namespace LiveSplit.CyberShadow {
             memory.Dispose();
             memory = null;
             base.Dispose();
-            logger.StopLogger();
         }
     }
 }

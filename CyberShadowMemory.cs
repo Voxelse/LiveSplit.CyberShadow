@@ -40,6 +40,12 @@ namespace LiveSplit.CyberShadow {
                     } },
                 }, (result) => InitPointers(result));
             };
+            OnExit += () => {
+                if(scanTask != null) {
+                    scanTask.Dispose();
+                    scanTask = null;
+                }
+            };
         }
 
         private void InitPointers(ScannableResult result) {
@@ -53,6 +59,22 @@ namespace LiveSplit.CyberShadow {
             IntPtr dataOffset = scanner.Scan(new ScanTarget(0x51, "E8 ???????? C7 86 ???????? 0F 00 00 00 C7 86"));
 
             StaticDataOffset = dataPtr + game.Read<int>(dataOffset);
+
+            logger.Log("Looking for version");
+            while(true) {
+                scanTask.token.ThrowIfCancellationRequested();
+
+                if(new UnionStringPointer(game, StaticDataOffset).New == "none") {
+                    if(new UnionStringPointer(game, StaticDataOffset + 0x50).New == "none") {
+                        logger.Log("Version < 1.04");
+                    } else {
+                        logger.Log("Version >= 1.04");
+                        StaticDataOffset += 0x18;
+                    }
+                    break;
+                }
+                System.Threading.Thread.Sleep(200);
+            }
 
             Mode = new UnionStringPointer(game, StaticDataOffset + 0x68);
             _ = Mode.New;
